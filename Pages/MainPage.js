@@ -50,7 +50,7 @@ export class MainPage {
     container.innerHTML = '';
 
     if (!users || users.length === 0) {
-      container.innerHTML = '<p class="text-muted">Администраторы не найдены.</p>';
+      container.innerHTML = '<p class="text-muted">Участники не найдены.</p>';
       return;
     }
 

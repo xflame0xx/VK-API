@@ -1,4 +1,4 @@
-// components/FilterComponent.js
+// components/SortFilterComponent.js
 export class SortFilterComponent {
   constructor(parent, onFilterChange) {
     this.parent = parent;
@@ -10,9 +10,9 @@ export class SortFilterComponent {
       <div class="mb-3">
         <label class="form-label">Фильтр:</label>
         <select class="form-select">
-          <option value="managers">Администраторы (владелец + админы)</option>
+          <option value="managers">Администраторы </option>
           <option value="friends">Друзья</option>
-          <option value="unsure">Сомневающиеся</option>
+          <option value="unsure">Участники
           <option value="donut">Donut</option>
         </select>
       </div>

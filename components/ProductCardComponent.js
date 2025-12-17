@@ -6,9 +6,23 @@ export class ProductCardComponent {
 
   render(user, onClick) {
     const imgSrc = user.photo_400 || 'https://vk.com/images/camera_400.png';
-    const roleTag = user.role === 'owner'
-      ? '<span class="badge bg-danger">Владелец</span>'
-      : '<span class="badge bg-warning text-dark">Админ</span>';
+
+    // Определяем метку роли ТОЛЬКО если она есть
+    let roleTag = '';
+    if (user.role) {
+      const roleLabel = user.role === 'owner'
+        ? 'Владелец'
+        : user.role === 'administrator'
+          ? 'Администратор'
+          : 'Модератор';
+      const badgeClass = user.role === 'owner' 
+        ? 'bg-danger' 
+        : 'bg-warning text-dark';
+      roleTag = `<span class="badge ${badgeClass}">${roleLabel}</span>`;
+    } else if (this.currentFilter === 'unsure') {
+  roleTag = '<span class="badge bg-info">Сомневающийся</span>';
+ }
+    // Если role нет — значок не показываем
 
     const div = document.createElement('div');
     div.className = 'col';

@@ -1,18 +1,25 @@
+// router.js
 import { MainPage } from "../pages/MainPage.js";
 import { UserPage } from "../pages/UserPage.js";
 
 export class Router {
-  constructor(root) {
-    this.root = root;
+  constructor(rootElement) {
+    this.root = rootElement;
   }
 
   navigateToMain() {
-    this.root.innerHTML = '';
-    new MainPage(this.root, (id) => this.navigateToUser(id)).render();
+    this.root.innerHTML = ''; // ← ОБЯЗАТЕЛЬНО!
+    const page = new MainPage(this.root, (userId) => {
+      this.navigateToUser(userId);
+    });
+    page.render();
   }
 
   navigateToUser(userId) {
-    this.root.innerHTML = '';
-    new UserPage(this.root, userId, () => this.navigateToMain()).render();
+    this.root.innerHTML = ''; // ← ОБЯЗАТЕЛЬНО!
+    const page = new UserPage(this.root, userId, () => {
+      this.navigateToMain(); // ← это и есть "назад"
+    });
+    page.render();
   }
 }
