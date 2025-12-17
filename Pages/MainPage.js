@@ -9,57 +9,58 @@ export class MainPage {
   constructor(parent, onUserClick) {
     this.parent = parent;
     this.onUserClick = onUserClick;
-    this.currentSort = 'id_asc';
+    this.currentFilter = 'managers';
   }
 
   render() {
     this.parent.innerHTML = `
       <div class="container mt-4">
-        <h2>Участники группы</h2>
+        <h2>Администраторы группы</h2>
         <div id="filter"></div>
-        <div id="members" class="row"></div>
+        <div id="members" class="row row-cols-1 row-cols-md-3 g-4"></div>
       </div>
     `;
 
-    const filter = this.parent.querySelector('#filter');
-    const members = this.parent.querySelector('#members');
+    const filterEl = this.parent.querySelector('#filter');
+    const membersEl = this.parent.querySelector('#members');
 
-    new SortFilterComponent(filter, (sort) => {
-      this.currentSort = sort;
-      this.loadMembers(members);
+    new SortFilterComponent(filterEl, (filter) => {
+      this.currentFilter = filter;
+      this.loadMembers(membersEl);
     }).render();
 
-    this.loadMembers(members);
+    this.loadMembers(membersEl);
   }
 
   loadMembers(container) {
     container.innerHTML = '<p class="text-center">Загрузка...</p>';
 
-    ajax.get(urls.getGroupMembers(groupId, this.currentSort), (data) => {
+    ajax.get(urls.getGroupMembers(groupId, this.currentFilter), (data) => {
       if (data.error) {
-        container.innerHTML = `<p class="text-danger">${data.error.error_msg || 'Ошибка'}</p>`;
+        container.innerHTML = `<p class="text-danger">Ошибка: ${data.error.error_msg || 'API не отвечает'}</p>`;
         return;
       }
 
-      // 🔥 ВАЖНО: items — это [123, 456, 789], а не [{id:123}, ...]
-      const userIds = data.response.items; // ← БЕЗ .map()!
-
-      this.renderUsers(container, userIds);
+      const users = data.response.items; // [{id, role}, ...]
+      this.renderUsers(container, users);
     });
   }
 
-  renderUsers(container, userIds) {
+  renderUsers(container, users) {
     container.innerHTML = '';
-    if (!userIds?.length) {
-      container.innerHTML = '<p>Нет участников</p>';
+
+    if (!users || users.length === 0) {
+      container.innerHTML = '<p class="text-muted">Администраторы не найдены.</p>';
       return;
     }
 
-    userIds.forEach(userId => {
-      ajax.get(urls.getUserInfo(userId), (res) => {
+    users.forEach(user => {
+      ajax.get(urls.getUserInfo(user.id), (res) => {
         if (res?.response?.[0]) {
-          new ProductCardComponent(container).render(res.response[0], () => {
-            this.onUserClick(userId);
+          const fullUser = res.response[0];
+          fullUser.role = user.role; // добавляем роль
+          new ProductCardComponent(container).render(fullUser, () => {
+            this.onUserClick(fullUser.id);
           });
         }
       });

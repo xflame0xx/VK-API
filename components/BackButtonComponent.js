@@ -1,5 +1,3 @@
-
-// components/BackButtonComponent.js
 export class BackButtonComponent {
   constructor(parent) {
     this.parent = parent;

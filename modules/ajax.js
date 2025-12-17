@@ -1,4 +1,3 @@
-// modules/ajax.js
 export class Ajax {
   get(url, callback) {
     const xhr = new XMLHttpRequest();
@@ -12,7 +11,7 @@ export class Ajax {
             const data = JSON.parse(xhr.responseText);
             callback(data);
           } catch (e) {
-            callback({ error: { error_msg: 'Ответ не JSON' } });
+            callback({ error: { error_msg: 'Ответ не является JSON' } });
           }
         } else {
           callback({ error: { error_msg: `HTTP ${xhr.status}` } });

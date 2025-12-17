@@ -14,13 +14,13 @@ export class UserPage {
   render() {
     this.parent.innerHTML = '<div class="container mt-4" id="user-container"></div>';
     const container = this.parent.querySelector('#user-container');
-    
+
     new BackButtonComponent(container).render(this.onBack);
-    container.innerHTML = '<p class="text-center">Загрузка...</p>';
+    container.innerHTML = '<p class="text-center">Загрузка профиля...</p>';
 
     ajax.get(urls.getUserInfo(this.userId), (data) => {
-      if (data.error || !data.response?.[0]) {
-        container.innerHTML = '<p class="text-danger">Ошибка загрузки</p>';
+      if (data?.error || !data?.response?.[0]) {
+        container.innerHTML = '<p class="text-danger">Не удалось загрузить профиль</p>';
         return;
       }
       new ProductComponent(container).render(data.response[0]);

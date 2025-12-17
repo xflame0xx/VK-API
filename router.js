@@ -1,4 +1,3 @@
-// router.js
 import { MainPage } from "../pages/MainPage.js";
 import { UserPage } from "../pages/UserPage.js";
 

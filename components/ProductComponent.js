@@ -1,8 +1,10 @@
-// components/ProductComponent.js
 export class ProductComponent {
-  constructor(parent) { this.parent = parent; }
+  constructor(parent) {
+    this.parent = parent;
+  }
+
   render(user) {
-    const img = user.photo_400 || 'https://vk.com/images/camera_400.png';
+    const imgSrc = user.photo_400 || 'https://vk.com/images/camera_400.png';
     const city = user.city?.title || '—';
     const phone = user.mobile_phone || '—';
     const sex = user.sex === 1 ? 'Женский' : user.sex === 2 ? 'Мужской' : '—';
@@ -16,7 +18,7 @@ export class ProductComponent {
     div.innerHTML = `
       <div class="row g-0">
         <div class="col-md-4">
-          <img src="${img}" class="img-fluid rounded-start" onerror="this.src='https://vk.com/images/camera_400.png'">
+          <img src="${imgSrc}" class="img-fluid rounded-start" alt="Аватар" onerror="this.src='https://vk.com/images/camera_400.png'">
         </div>
         <div class="col-md-8">
           <div class="card-body">

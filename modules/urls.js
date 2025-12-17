@@ -7,12 +7,13 @@ export class Urls {
     this.common = `access_token=${accessToken}&v=${version}`;
   }
 
-  getUserInfo(userId) {
-    return `${this.baseUrl}/users.get?user_ids=${userId}&fields=photo_400,city,mobile_phone,sex,last_seen&${this.common}`;
+  getGroupMembers(groupId, filter = 'managers') {
+    // Запрашиваем role — чтобы различать владельца и админов
+    return `${this.baseUrl}/groups.getMembers?group_id=${groupId}&fields=role&filter=${filter}&${this.common}`;
   }
 
-  getGroupMembers(groupId, sort = 'id_asc') {
-    return `${this.baseUrl}/groups.getMembers?group_id=${groupId}&sort=${sort}&${this.common}`;
+  getUserInfo(userId) {
+    return `${this.baseUrl}/users.get?user_ids=${userId}&fields=photo_400,city,mobile_phone,sex,last_seen&${this.common}`;
   }
 }
 

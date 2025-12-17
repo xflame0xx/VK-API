@@ -1,26 +1,26 @@
-// components/SortFilterComponent.js
+// components/FilterComponent.js
 export class SortFilterComponent {
-  constructor(parent, onSortChange) {
+  constructor(parent, onFilterChange) {
     this.parent = parent;
-    this.onSortChange = onSortChange;
+    this.onFilterChange = onFilterChange;
   }
 
   render() {
     const html = `
       <div class="mb-3">
-        <label for="sortSelect" class="form-label">Сортировка:</label>
-        <select id="sortSelect" class="form-select">
-          <option value="id_asc">По ID (возрастание)</option>
-          <option value="id_desc">По ID (убывание)</option>
-          <option value="time_asc">По времени (старые)</option>
-          <option value="time_desc">По времени (новые)</option>
+        <label class="form-label">Фильтр:</label>
+        <select class="form-select">
+          <option value="managers">Администраторы (владелец + админы)</option>
+          <option value="friends">Друзья</option>
+          <option value="unsure">Сомневающиеся</option>
+          <option value="donut">Donut</option>
         </select>
       </div>
     `;
     this.parent.innerHTML = html;
 
-    this.parent.querySelector('#sortSelect').addEventListener('change', (e) => {
-      this.onSortChange(e.target.value);
+    this.parent.querySelector('select').addEventListener('change', (e) => {
+      this.onFilterChange(e.target.value);
     });
   }
 }
